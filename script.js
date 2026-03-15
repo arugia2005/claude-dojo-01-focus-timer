@@ -34,7 +34,13 @@ function formatTime(seconds) {
 }
 
 function clamp(n, min, max) {
-  return Number.isNaN(n) ? min : Math.min(max, Math.max(min, n));
+  const v = Number.isFinite(n) ? n : min;
+  return Math.min(max, Math.max(min, v));
+}
+
+function intClamp(value, min, max) {
+  const n = Math.floor(Number(value) || 0);
+  return clamp(n, min, max);
 }
 
 const defaultState = {
@@ -124,6 +130,8 @@ function render() {
   timeEl.textContent = formatTime(state.remainingSeconds);
   startBtn.disabled = isRunning;
   stopBtn.disabled = !isRunning;
+  focusMinInput.disabled = isRunning;
+  breakMinInput.disabled = isRunning;
   const task = (taskInput.value.trim() || '集中タイマー');
   const modeText = state.mode === 'focus' ? 'フォーカス' : '休憩';
   modeEl.textContent = `モード: ${modeText}`;
@@ -138,14 +146,18 @@ function render() {
 }
 
 function setDurationFromInputs() {
-  const focus = clamp(Number(focusMinInput.value), 1, 120);
-  const brk = clamp(Number(breakMinInput.value), 1, 60);
+  if (isRunning) {
+    // 実行中は設定を受け付けない
+    applyInputs();
+    return;
+  }
+
+  const focus = intClamp(focusMinInput.value, 1, 120);
+  const brk = intClamp(breakMinInput.value, 1, 60);
   state.focusMinutes = focus;
   state.breakMinutes = brk;
-  if (!isRunning) {
-    state.remainingSeconds = getCurrentModeMinutes() * 60;
-  }
-  persist();
+  state.remainingSeconds = getCurrentModeMinutes() * 60;
+  applyInputs();
   render();
 }
 
@@ -195,9 +207,12 @@ function init() {
       ...saved,
     };
   }
-  state.focusMinutes = clamp(Number(state.focusMinutes), 1, 120);
-  state.breakMinutes = clamp(Number(state.breakMinutes), 1, 60);
-  state.remainingSeconds = Number(state.remainingSeconds) || state.focusMinutes * 60;
+  state.focusMinutes = intClamp(state.focusMinutes, 1, 120);
+  state.breakMinutes = intClamp(state.breakMinutes, 1, 60);
+  state.mode = state.mode === 'break' ? 'break' : 'focus';
+  state.remainingSeconds = getCurrentModeMinutes() * 60;
+  state.sessions = Number.isFinite(Number(state.sessions)) ? Number(state.sessions) : 0;
+  isRunning = false;
   applyInputs();
   render();
 }

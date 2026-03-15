@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>集中タイマー</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>集中タイマー</h1>
+    <div class="card">
+      <div class="task-row">
+        <label for="taskInput">タスク</label>
+        <input id="taskInput" type="text" placeholder="例: レポートを書く" />
+      </div>
+      <div class="ring-frame">
+        <div id="ring" class="ring">
+          <div id="time" class="time">25:00</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="startBtn">スタート</button>
+        <button id="stopBtn" disabled>ストップ</button>
+        <button id="resetBtn">リセット</button>
+      </div>
+      <p id="mode" class="meta">モード: フォーカス</p>
+      <p id="status" class="status">準備完了</p>
+      <div class="settings">
+        <div class="settings-row">
+          <label for="focusMin">集中 (分)</label>
+          <input id="focusMin" type="number" min="1" max="120" value="25" />
+        </div>
+        <div class="settings-row">
+          <label for="breakMin">休憩 (分)</label>
+          <input id="breakMin" type="number" min="1" max="60" value="5" />
+        </div>
+        <div class="settings-row">
+          <label for="autoCycle">自動サイクル</label>
+          <input id="autoCycle" type="checkbox" checked />
+        </div>
+      </div>
+      <p class="meta">完了セッション: <strong id="sessionCount">0</strong></p>
+      <p class="help">ショートカット: Spaceでスタート/ストップ, Rでリセット</p>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

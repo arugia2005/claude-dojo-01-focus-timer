@@ -1,0 +1,24 @@
+* { box-sizing: border-box; }
+:root { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: #222; background: #f8fafc; }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #eef2ff; }
+.app { width: min(420px, 92vw); text-align: center; }
+h1 { margin: 0 0 .8rem; font-size: 1.5rem; color: #111827; }
+.card { background: white; border-radius: 16px; padding: 1rem; box-shadow: 0 8px 20px rgba(0,0,0,.08); border: 1px solid #e5e7eb; }
+.task-row { display: flex; flex-direction: column; text-align: left; margin-bottom: .8rem; gap: .3rem; }
+.task-row label { font-size: .85rem; color: #4b5563; }
+.task-row input { border: 1px solid #cbd5e1; border-radius: 8px; padding: .4rem .5rem; font-size: .95rem; }
+.ring-frame { display: flex; justify-content: center; margin: 0 auto 1rem; width: 170px; height: 170px; }
+.ring { width: 170px; height: 170px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(#4f46e5 0%, #e2e8f0 0%); box-shadow: inset 0 0 0 9px #fff; position: relative; }
+.ring::after { content: '';
+  width: 126px; height: 126px; border-radius: 50%; background: #fff; position: absolute; }
+.time { position: relative; z-index: 1; font-size: 2rem; font-weight: 700; letter-spacing: .05em; color: #111827; }
+.controls { display: flex; justify-content: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .7rem; }
+button { border: none; cursor: pointer; border-radius: 8px; font-size: .95rem; padding: .55rem .9rem; background: #4f46e5; color: white; font-weight: 600; transition: .16s ease; }
+button:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.05); }
+button:disabled { background: #cbd5e1; cursor: not-allowed; }
+.status { margin: 0; color: #334155; font-size: .95rem; }
+.meta { margin: .3rem 0 0; color: #1f2937; font-size: .9rem; }
+.settings { margin-top: .6rem; border-top: 1px solid #e2e8f0; padding-top: .5rem; display: grid; gap: .35rem; }
+.settings-row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; font-size: .85rem; }
+.settings-row input[type="number"] { width: 4.8rem; border: 1px solid #cbd5e1; border-radius: 6px; padding: .2rem .3rem; }
+.settings-row input[type="checkbox"] { transform: scale(1.2); }

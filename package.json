@@ -1,0 +1,13 @@
+{
+  "name": "iphone-stock-notifier",
+  "version": "1.0.0",
+  "description": "iPhone stock notifier using Discord",
+  "main": "iphone-stock-notify.js",
+  "scripts": {
+    "start": "node iphone-stock-notify.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

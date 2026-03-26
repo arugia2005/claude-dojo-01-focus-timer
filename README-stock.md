@@ -13,6 +13,18 @@
   - `CHECK_INTERVAL_MS`: チェック間隔（デフォルト 2分 = 120000ms）
 - 起動コマンド: `node iphone-stock-notify.js`
 
+#### Railway 環境変数の設定方法
+1. Railway ダッシュボードにログイン
+2. プロジェクトを選択
+3. 「Settings」タブ → 「Variables」セクション
+4. 「Add Variable」ボタンをクリック
+5. 以下の変数を追加:
+   - Name: `DISCORD_WEBHOOK_URL`
+   - Value: `https://discordapp.com/api/webhooks/1485127631971291155/1rjEwhpEqVoTFWk0Fw8iH8uGKjGEgUuronOLwragV3KoAvQy90wOZ28L7hQK1732cqaI`
+   - Name: `CHECK_INTERVAL_MS`
+   - Value: `120000`
+6. 「Save」ボタンをクリック
+
 ## ポイント
 - Apple APIから在庫をポーリング
 - 在庫が「0->1」になった時のみ Discord に通知

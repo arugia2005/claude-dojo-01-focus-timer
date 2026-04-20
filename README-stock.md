@@ -21,6 +21,8 @@
 5. 以下の変数を追加:
    - Name: `DISCORD_WEBHOOK_URL`
    - Value: `https://discordapp.com/api/webhooks/1485127631971291155/1rjEwhpEqVoTFWk0Fw8iH8uGKjGEgUuronOLwragV3KoAvQy90wOZ28L7hQK1732cqaI`
+   - Name: `POSTAL_CODE`
+   - Value: `150-0001`（監視したい郵便番号）
    - Name: `CHECK_INTERVAL_MS`
    - Value: `120000`
 6. 「Save」ボタンをクリック

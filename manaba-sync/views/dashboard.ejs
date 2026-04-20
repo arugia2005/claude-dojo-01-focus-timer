@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ダッシュボード - まなばカレンダー同期</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <span>📅 まなばカレンダー同期</span>
+      <div class="user-info">
+        <% if (user.avatar) { %><img src="<%= user.avatar %>" alt="" class="avatar"><% } %>
+        <span><%= user.name %></span>
+        <form action="/auth/logout" method="POST" style="display:inline">
+          <button type="submit" class="btn-sm">ログアウト</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <% if (flash) { %>
+      <div class="alert <%= flash.type %>"><%= flash.message %></div>
+    <% } %>
+
+    <div class="card">
+      <h2>同期状況</h2>
+      <p>登録済みイベント数: <strong><%= syncedCount %>件</strong></p>
+      <p>自動同期: 毎晩 20:30</p>
+      <form action="/dashboard/sync" method="POST">
+        <button type="submit" class="btn">今すぐ同期する</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>まなばアカウント設定</h2>
+      <form action="/settings/manaba" method="POST">
+        <label>学籍番号
+          <input type="text" name="manaba_id" value="<%= manabaId %>" placeholder="例: 22B0000" required autocomplete="username">
+        </label>
+        <label>まなばパスワード
+          <input type="password" name="manaba_pass" placeholder="<%= hasManabaCredentials ? '変更する場合のみ入力' : 'パスワード' %>" <%= hasManabaCredentials ? '' : 'required' %> autocomplete="current-password">
+        </label>
+        <button type="submit" class="btn">保存</button>
+      </form>
+      <% if (hasManabaCredentials) { %>
+        <p class="note">✅ 認証情報は暗号化して保存済み</p>
+      <% } %>
+    </div>
+
+    <div class="card">
+      <h2>同期する種類</h2>
+      <form action="/settings/sync-settings" method="POST">
+        <label class="checkbox">
+          <input type="checkbox" name="include_assignments" value="1" <%= settings?.include_assignments !== false ? 'checked' : '' %>>
+          課題
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="include_quizzes" value="1" <%= settings?.include_quizzes !== false ? 'checked' : '' %>>
+          小テスト
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="include_announcements" value="1" <%= settings?.include_announcements ? 'checked' : '' %>>
+          お知らせ
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="include_surveys" value="1" <%= settings?.include_surveys ? 'checked' : '' %>>
+          アンケート
+        </label>
+        <label>カレンダーID（デフォルトでOK）
+          <input type="text" name="calendar_id" value="<%= settings?.calendar_id || 'primary' %>">
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="enabled" value="1" <%= settings?.enabled !== false ? 'checked' : '' %>>
+          自動同期を有効にする
+        </label>
+        <button type="submit" class="btn">設定を保存</button>
+      </form>
+    </div>
+
+    <div class="card danger-zone">
+      <h2>アカウント削除</h2>
+      <p>まなばのパスワードを含む全データが削除されます。</p>
+      <form action="/settings/delete-account" method="POST" onsubmit="return confirm('本当に削除しますか？')">
+        <button type="submit" class="btn danger">アカウントを削除</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

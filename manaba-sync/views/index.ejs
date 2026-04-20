@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>まなばカレンダー同期</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container center">
+    <h1>📅 まなばカレンダー同期</h1>
+    <p>まなばの課題・小テストの締切を<br>Googleカレンダーに自動登録するツール</p>
+    <% if (error) { %>
+      <p class="alert error">ログインに失敗しました。もう一度お試しください。</p>
+    <% } %>
+    <a href="/auth/google" class="btn google-btn">
+      <img src="https://www.google.com/favicon.ico" alt="G" width="18">
+      Googleでログイン（中大アカウント推奨）
+    </a>
+    <p class="note">ログインすることでまなばのパスワードを<br>暗号化保存してカレンダーと連携します。</p>
+  </div>
+</body>
+</html>

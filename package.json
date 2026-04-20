@@ -4,10 +4,16 @@
   "description": "iPhone stock notifier using Discord",
   "main": "iphone-stock-notify.js",
   "scripts": {
-    "start": "node iphone-stock-notify.js"
+    "start": "node iphone-stock-notify.js",
+    "manaba": "node manaba-calendar.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "googleapis": "^140.0.0",
+    "node-cron": "^3.0.0",
+    "puppeteer": "^22.0.0"
+  },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 }

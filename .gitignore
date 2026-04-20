@@ -1,0 +1,4 @@
+.env
+node_modules/
+stock-state.json
+calendar-state.json

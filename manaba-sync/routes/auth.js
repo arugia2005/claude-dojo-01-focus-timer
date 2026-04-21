@@ -4,13 +4,9 @@ const router = express.Router();
 
 // Googleログイン（カレンダー権限も同時取得）
 router.get('/google', passport.authenticate('google', {
-  scope: [
-    'profile',
-    'email',
-    'https://www.googleapis.com/auth/calendar',
-  ],
+  scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
   accessType: 'offline',
-  prompt: 'consent', // 必ずrefresh_tokenを取得するため
+  prompt: 'consent',
 }));
 
 // Googleコールバック

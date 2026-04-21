@@ -16,14 +16,14 @@ async function syncUser(userId) {
 
   // Googleトークンを取得・復号
   const tokenRes = await db.query(
-    'SELECT encrypted_access_token, encrypted_refresh_token, iv, auth_tag FROM google_tokens WHERE user_id = $1',
+    'SELECT encrypted_access_token, access_iv, access_auth_tag, encrypted_refresh_token, refresh_iv, refresh_auth_tag FROM google_tokens WHERE user_id = $1',
     [userId]
   );
   if (!tokenRes.rows.length) throw new Error('Googleトークンが未設定');
 
   const tok = tokenRes.rows[0];
-  const accessToken = decrypt(tok.encrypted_access_token, tok.iv, tok.auth_tag);
-  const refreshToken = decrypt(tok.encrypted_refresh_token, tok.iv, tok.auth_tag);
+  const accessToken = decrypt(tok.encrypted_access_token, tok.access_iv, tok.access_auth_tag);
+  const refreshToken = decrypt(tok.encrypted_refresh_token, tok.refresh_iv, tok.refresh_auth_tag);
 
   // 同期設定を取得
   const settingsRes = await db.query(
@@ -31,6 +31,7 @@ async function syncUser(userId) {
     [userId]
   );
   const settings = settingsRes.rows[0] || {
+    enabled: true,
     include_assignments: true,
     include_quizzes: true,
     include_announcements: false,

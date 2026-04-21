@@ -22,17 +22,16 @@ app.use(helmet({ contentSecurityPolicy: false }));
 // レート制限（同一IPから60秒に100リクエストまで）
 app.use(rateLimit({ windowMs: 60 * 1000, max: 100, standardHeaders: true }));
 
-// --- セッション（PostgreSQLに保存）
+// --- セッション（開発時はメモリ、本番はPostgreSQL）
 app.use(session({
-  store: new PgSession({ pool: db.pool, tableName: 'session' }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: false,
     httpOnly: true,
     sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7日
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   },
 }));
 
@@ -64,12 +63,14 @@ passport.use(new GoogleStrategy(
         const encR = encrypt(refreshToken);
         await db.query(
           `INSERT INTO google_tokens
-            (user_id, encrypted_access_token, encrypted_refresh_token, iv, auth_tag)
-           VALUES ($1, $2, $3, $4, $5)
+            (user_id, encrypted_access_token, access_iv, access_auth_tag,
+             encrypted_refresh_token, refresh_iv, refresh_auth_tag)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
            ON CONFLICT (user_id) DO UPDATE
-           SET encrypted_access_token = $2, encrypted_refresh_token = $3,
-               iv = $4, auth_tag = $5, updated_at = NOW()`,
-          [userId, enc.encrypted, encR.encrypted, enc.iv, enc.authTag]
+           SET encrypted_access_token = $2, access_iv = $3, access_auth_tag = $4,
+               encrypted_refresh_token = $5, refresh_iv = $6, refresh_auth_tag = $7,
+               updated_at = NOW()`,
+          [userId, enc.encrypted, enc.iv, enc.authTag, encR.encrypted, encR.iv, encR.authTag]
         );
       }
 

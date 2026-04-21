@@ -6,6 +6,7 @@ const SAML_IDP_HOST = 'gakunin-idp.c.chuo-u.ac.jp';
 async function scrapeManaba(manabaId, manabaPass, settings) {
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
   });
 
